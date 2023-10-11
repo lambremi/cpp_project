@@ -1,0 +1,11 @@
+# On indique à Git d'ignorer tous les fichier d'extension .bak
+*.bak
+
+# On indique à Git d'ignorer tous les fichier dont le nom se termine par ~ 
+*~
+
+# On indique à Git d'ignorer tous les fichier dont le nom commence par ~$
+~$*
+
+# pour macos
+.DS_Store
