@@ -31,8 +31,8 @@ class Component
 {
 public:
     // Constructeurs
-    Component(string label);
-    Component(string label, Component &source);
+    Component(component_t type, string label);
+    Component(component_t type, string label, Component &source);
 
     // Destructeurs
     ~Component();

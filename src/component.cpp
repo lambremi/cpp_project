@@ -18,16 +18,19 @@ using namespace std;
 
 // Constructeurs
 /**
- * @brief Constructeur pour un composant sans source
+ * @brief Instancie un composant sans source
  * 
+ * @param label Nom de l'instance
  */
-Component::Component(string label) : label(label), source(*this) {}
+Component::Component(component_t type, string label) : type(type), label(label), source(*this) {}
 
 /**
- * @brief Constructeur pour un composant avec source
+ * @brief Instancie un composant avec une source
  * 
+ * @param label Nom de l'instance
+ * @param source Référence vers le composant source
  */
-Component::Component(string label, Component &source) : label(label), source(source) {}
+Component::Component(component_t type, string label, Component &source) : type(type), label(label), source(source) {}
 
 // Méthodes get
 /**
@@ -36,7 +39,7 @@ Component::Component(string label, Component &source) : label(label), source(sou
  * @return component_t 
  */
 component_t Component::getType() const{
-    return this->type;
+    return type;
 }
 
 /**
@@ -45,7 +48,7 @@ component_t Component::getType() const{
  * @return string 
  */
 string Component::getLabel() const{
-    return this->label;
+    return label;
 }
 
 /**
@@ -54,5 +57,5 @@ string Component::getLabel() const{
  * @return Component& 
  */
 Component &Component::getSource() const{
-    return this->source;
+    return source;
 }
