@@ -1,6 +1,9 @@
 # Ca teje le dossier build
 build/
 
+# VSCode
+.vscode/
+
 # On indique à Git d'ignorer tous les fichier d'extension .bak
 *.bak
 
