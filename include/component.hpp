@@ -18,6 +18,12 @@
 using namespace std;
 
 /**
+ * @brief Type énumérant des différents composants
+ * 
+ */
+typedef enum {PLATFORM, CPU, BUS, MEMORY, DISPLAY} component_t;
+
+/**
  * @brief Classe de base permettant de définir tous les autres composants
  * 
  */
@@ -32,6 +38,7 @@ public:
     ~Component();
 
     // Méthodes get
+    virtual component_t getType() const;
     virtual string getLabel() const;
     virtual Component &getSource() const;
 
@@ -40,6 +47,7 @@ public:
     virtual void simulate();
     
 protected:
+    component_t type;
     string label;
     Component &source;
 };

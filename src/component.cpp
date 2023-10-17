@@ -31,6 +31,15 @@ Component::Component(string label, Component &source) : label(label), source(sou
 
 // Méthodes get
 /**
+ * @brief Retourne le type du composant
+ * 
+ * @return component_t 
+ */
+component_t Component::getType() const{
+    return this->type;
+}
+
+/**
  * @brief Retourne le label du composant
  * 
  * @return string 
