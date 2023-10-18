@@ -17,7 +17,7 @@ if ERRORLEVEL 1 (
         del /q /s temp
         goto end
     )
-    del *.exe
+    del *.exe >nul 2>&1
     copy ..\CMakeLists.txt temp\CMakeLists.txt >nul
 )
 

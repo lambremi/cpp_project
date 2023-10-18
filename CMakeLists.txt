@@ -7,7 +7,10 @@ include_directories(./include)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -Wconversion -std=gnu99")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror -Wconversion -std=gnu++11")
 
+file(GLOB SOURCES "src/*.cpp")
+
 include(CTest)
 enable_testing()
 
 # add_executable(hello            ./01-hello/hello.cpp)
+add_executable(gael ./prog/gael ${SOURCES}) 

@@ -43,8 +43,8 @@ public:
     virtual Component &getSource() const;
 
     // Interactions
-    virtual dataValue read() const;
-    virtual void simulate();
+    virtual dataValue read() const = 0;
+    virtual void simulate() = 0;
     
 protected:
     component_t type;
