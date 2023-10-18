@@ -9,7 +9,7 @@
  * 
  */
 
-#include "../include/platform.hpp"
+#include "platform.hpp"
 
 //----- Rescources liées à la lecture du fichier de définition
 // Initialisation des mots clés

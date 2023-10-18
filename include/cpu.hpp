@@ -25,19 +25,15 @@ using namespace std;
 class CPU
 {
 private:
-    /* data */
+    int n_core;
+    string program_path;
+    int freq;
+    int write(double value);
 public:
-    CPU(/* args */);
+    CPU(component_t type, string label, int n_core);
     ~CPU();
+    dataValue read() const;
+    void simulate();
 };
-
-CPU::CPU(component_t type = CPU)
-{
-}
-
-CPU::~CPU()
-{
-}
-
 
 #endif // _CPU_HPP_
