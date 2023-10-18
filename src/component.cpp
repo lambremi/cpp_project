@@ -16,7 +16,7 @@
 
 using namespace std;
 
-// Constructeurs
+//----- Constructeurs
 /**
  * @brief Instancie un composant sans source
  * 
@@ -32,7 +32,14 @@ Component::Component(component_t type, string label) : type(type), label(label),
  */
 Component::Component(component_t type, string label, Component &source) : type(type), label(label), source(source) {}
 
-// Méthodes get
+//----- Destructeur
+/**
+ * @brief Destroy the Component:: Component object
+ * 
+ */
+Component::~Component() {}
+
+//---- Méthodes get
 /**
  * @brief Retourne le type du composant
  * 

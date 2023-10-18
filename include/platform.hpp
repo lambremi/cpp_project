@@ -21,13 +21,13 @@ private:
     static const string keywords[];
 
     vector<string*> getPaths(string def_file);
-    Component readComposant(string path);
+    Component* readComponent(string path);
     
     void bindComponent();
 
 public:
     // Constructeurs
-    Platform(string def_file);
+    Platform(string label, string def_file);
     
     // Destructeurs
     ~Platform();
