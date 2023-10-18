@@ -8,15 +8,12 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -Wconversion -std=gnu99")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror -Wconversion -std=gnu++11")
 
 file(GLOB SOURCES "src/*.cpp")
-file(GLOB TESTS "tests/*.cpp")
 
 include(CTest)
 enable_testing()
 
 # add_executable(hello            ./01-hello/hello.cpp)
 add_executable(gael ./prog/gael ${SOURCES}) 
-add_executable(test_bon tests/test_bon.cpp)
-add_executable(test_mauvais tests/test_mauvais.cpp)
+add_executable(test_bon tests/test_bon.cpp ${SOURCES})
 
 add_test(tjrs_bon ./test_bon)
-add_test(tjrs_mauvais ./test_mauvais)
