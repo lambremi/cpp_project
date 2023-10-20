@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include "platform.hpp"
 
 //----- Rescources liées à la lecture du fichier de définition
@@ -38,8 +39,7 @@ const string Platform::keywords[] = {       // Mots clés des caractéristiques 
  */
 vector<string*> Platform::getPaths(string def_file) {
     vector<string*> paths;
-
-    fstream file(def_file, ios::in);
+    ifstream file(def_file);
 
     if (!file.is_open()) {
         cerr << "Erreur lors de l'ouverture du fichier de définition " << def_file << endl;
@@ -47,8 +47,11 @@ vector<string*> Platform::getPaths(string def_file) {
     }
 
     string line;
-    file.read((char*)&line, sizeof(line));
-    cout << line << endl;
+    while (getline(file, line)) {
+        istringstream iss(line);
+        // cout << line << endl;
+        paths.push_back(new string(line));
+    }
 
     return paths;
 }
@@ -61,7 +64,7 @@ vector<string*> Platform::getPaths(string def_file) {
  */
 Component* Platform::readComponent(string path) {
     Component* component = nullptr;
-
+    cout << path << endl;
     return component;
 }
 
@@ -81,7 +84,12 @@ void Platform::bindComponent() {
  * @param def_file Chemin vers le fichier de définition
  */
 Platform::Platform(string label, string def_file) : Component(PLATFORM, label) {
-    /* TO DO */
+    vector<string*> paths = getPaths(def_file);
+
+    for (int i = 0; i < paths.size(); i=i+1)
+        readComponent(*paths[i]);
+
+    
 }
 
 //----- Destructeurs

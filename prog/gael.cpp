@@ -7,10 +7,12 @@
 #include <sstream>
 #include <vector>
 
+#include "platform.hpp"
+
 using namespace std;
 
 int main(/*int argc, char const *argv[]*/) {
-
+/*
     string def_file = "../data/platform.txt";
     vector<string*> paths;
 
@@ -25,8 +27,10 @@ int main(/*int argc, char const *argv[]*/) {
     while (getline(file, line)) {
         istringstream iss(line);
         cout << line << endl;
+        paths.push_back(new string(line));
     }
-
+*/
+    Platform platform;//("test", "../data/platform.txt");
     // cout << "ouvert" << endl;
 
     
