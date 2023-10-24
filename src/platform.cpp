@@ -51,6 +51,7 @@ vector<string*> Platform::getPaths(string def_file) {
     while (getline(file, line)) {
         istringstream iss(line);
         // cout << line << endl;
+        line = "../" + line;
         paths.push_back(new string(line));
     }
 
@@ -163,7 +164,7 @@ Component* Platform::readComponent(string path) {
 
     compProperties_t properties;
     readProperties(path, &properties);
-    
+
     // FAIRE UN NOUVEAU MAP POUR LES TYPES DE COMPOSANTS
     /*switch (kwMap.at(properties.type)) {
         case CPU:
