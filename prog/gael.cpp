@@ -30,7 +30,7 @@ int main(/*int argc, char const *argv[]*/) {
         paths.push_back(new string(line));
     }
 */
-    Platform platform;//("test", "../data/platform.txt");
+    Platform platform("test", "../data/platform.txt");
     // cout << "ouvert" << endl;
 
     
