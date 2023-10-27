@@ -1,3 +1,14 @@
+/**
+ * @file register.hpp
+ * @author LAMBERT Rémi & OUSSET Gaël
+ * @brief 
+ * @version 0.1
+ * @date 2023-10-27
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
+
 #ifndef REGISTER_HPP
 #define REGISTER_HPP
 
@@ -5,6 +16,10 @@
 
 using namespace std;
 
+/**
+ * @brief class Register
+ * used to store the CPU data
+ */
 class Register {
     private:
         queue<double> fifo;
