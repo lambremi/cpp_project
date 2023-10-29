@@ -19,6 +19,6 @@
 typedef struct dataValue {
     double  value;                       // Valeur de la donnée
     bool    flag;                        // Indique si la donnée est disponible
-} dataValue_t;
+} dataValue;
 
 #endif // _DATAVALUE_HPP_

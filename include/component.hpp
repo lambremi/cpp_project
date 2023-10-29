@@ -55,7 +55,7 @@ public:
     virtual string      getSource() const;*/
 
     // Interactions
-    virtual dataValue read() const = 0;
+    virtual dataValue read() = 0;
     virtual void simulate() = 0;
     
 protected:

@@ -1,11 +1,7 @@
 #include "program.hpp"
 
-int main(int argc, char *argv[]) {
-    if (argc != 2) {
-        cout << "Error: forgot to give a program path" << endl;
-        exit(1);
-    }
-    Program program(argv[1]);
+int main() {
+    Program program("../data/program.txt");
     decode_t instruction;
     double result;
 

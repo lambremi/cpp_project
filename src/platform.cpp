@@ -258,7 +258,7 @@ Platform::~Platform() {
  * 
  * @return dataValue - Données de la plateforme
  */
-dataValue Platform::read() const {
+dataValue Platform::read() {
     /* TODO */
     return dataValue();
 }

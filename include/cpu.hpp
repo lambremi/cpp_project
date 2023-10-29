@@ -15,6 +15,7 @@
 #include <string>
 #include "component.hpp"
 #include "register.hpp"
+#include "program.hpp"
 
 
 using namespace std;
@@ -24,17 +25,19 @@ using namespace std;
  * 
  */
 
-class CPU : public Component
+class Cpu : public Component
 {
 private:
     int n_core;
+    int active_core;
     int freq;
     Register reg;
+    Program prog;
 public:
-    CPU(component_t type, string label, int n_core, int freq);
-    ~CPU();
-    dataValue_t read();
-    void simulate();
+    Cpu(component_t type, string label, string path_to_prog, int n_core, int freq);
+    ~Cpu();
+    virtual dataValue read() override;
+    virtual void simulate();
 };
 
 #endif // _CPU_HPP_

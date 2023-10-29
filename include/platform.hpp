@@ -82,7 +82,7 @@ public:
     vector<Component*> components;
 
     // Interactions
-    dataValue read() const override;
+    dataValue read() override;
     void simulate() override;
 };
 
