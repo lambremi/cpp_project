@@ -22,7 +22,11 @@ using namespace std;
  * 
  * @param label Nom de l'instance
  */
-Component::Component(component_t type, string label) : type(type), label(label), source(*this) {}
+Component::Component(component_t type, string label) :  type(type),
+                                                        label(label),
+                                                        source(this) {
+    
+}
 
 /**
  * @brief Instancie un composant avec une source
@@ -30,7 +34,11 @@ Component::Component(component_t type, string label) : type(type), label(label),
  * @param label Nom de l'instance
  * @param source Référence vers le composant source
  */
-Component::Component(component_t type, string label, Component &source) : type(type), label(label), source(source) {}
+Component::Component(component_t type, string label, Component *source) :   type(type),
+                                                                            label(label), 
+                                                                            source(source) {
+    
+}
 
 //----- Destructeur
 /**
@@ -45,7 +53,7 @@ Component::~Component() {}
  * 
  * @return component_t 
  */
-component_t Component::getType() const{
+component_t Component::getType() const {
     return type;
 }
 
@@ -54,15 +62,33 @@ component_t Component::getType() const{
  * 
  * @return string 
  */
-string Component::getLabel() const{
+string Component::getLabel() const {
     return label;
 }
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-but-set-parameter"
 /**
  * @brief Retourne la source du composant
  * 
- * @return Component& 
+ * @param src Pointeur sur la source du composant
  */
-Component &Component::getSource() const{
-    return source;
+void Component::getSource(Component* src) const {
+    src = source;
+}
+
+void Component::setSource(Component* src) {
+    source = src;
+}
+#pragma GCC diagnostic pop
+
+/**
+ * @brief Assigne le string indiquand le 
+ * label de la source
+ * 
+ * @param src Pointeur vers la chaine de 
+ * caractère devant être assigné
+ */
+void Component::getSource(string* src) const {
+    *src = source_str;
 }

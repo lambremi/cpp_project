@@ -13,14 +13,13 @@
 #define _PLATFORM_HPP_
 
 #include <vector>
-#include <map>
 #include "component.hpp"
 
 class Platform : public Component
 {
 private:
     //----- Rescources liées à la lecture des fichiers de définition
-    //static const string keywords[];
+    // Mots clés des fichiers de définition
     typedef enum {
         TYPE,
         LABEL,
@@ -34,21 +33,36 @@ private:
         ACCESS
     } keyword_t;
     typedef map<string, keyword_t> KWMap_t;
-    KWMap_t kwMap;                   // A discuter du static
-
+    // Initialisation de KWMap
+    static KWMap_t& getKWMap() {
+        static KWMap_t kwMap = {
+            {"TYPE",      TYPE},
+            {"LABEL",     LABEL},
+            {"SOURCE",    SOURCE},
+            {"WIDTH",     WIDTH},
+            {"CORES",     CORES},
+            {"FREQUENCY", FREQUENCY},
+            {"PROGRAM",   PROGRAM},
+            {"REFRESH",   REFRESH},
+            {"SIZE",      SIZE},
+            {"ACCESS",    ACCESS}
+        };
+        return kwMap;
+    }
+    
     vector<string*> getPaths(string def_file);
 
     typedef struct {
-        string  type,                       // Type de composant
-                label,                      // Label du composant
-                source,                     // Label de la source des données
-                program;                    // Chemin vers le programmedu CPU
-        int     width,                      // Largeur du bus
-                cores,                      // Nombre de coeurs du CPU
-                frequency,                  // Fréquence du CPU
-                refresh,                    // Fréquence de rafraichissement de l'affichage
-                size,                       // Taille de la mémoire
-                access;                     // Temps d'accès à la mémoire
+        component_t type;                   // Type de composant
+        string      label,                  // Label du composant
+                    source,                 // Label de la source des données
+                    program;                // Chemin vers le programmedu CPU
+        int         width,                  // Largeur du bus
+                    cores,                  // Nombre de coeurs du CPU
+                    frequency,              // Fréquence du CPU
+                    refresh,                // Fréquence de rafraichissement de l'affichage
+                    size,                   // Taille de la mémoire
+                    access;                 // Temps d'accès à la mémoire
     } compProperties_t;                     // Structure de données pour stocker les caractéristiques des composants
     void readProperties(string path, compProperties_t *properties);
     void printProperties(compProperties_t properties);

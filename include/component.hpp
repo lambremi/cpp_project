@@ -13,6 +13,7 @@
 #define _COMPONENT_HPP_
 
 #include <string>
+#include <map>
 #include "dataValue.hpp"
 
 using namespace std;
@@ -21,7 +22,14 @@ using namespace std;
  * @brief Type énumérant des différents composants
  * 
  */
-typedef enum {PLATFORM, CPU, BUS, MEMORY, DISPLAY} component_t;
+typedef enum {
+    UNKNOWN,                                // Valeur par défaut
+    MEMORY,
+    BUS,
+    CPU,
+    DISPLAY,
+    PLATFORM
+} component_t;
 
 /**
  * @brief Classe de base permettant de définir tous les autres composants
@@ -32,7 +40,7 @@ class Component
 public:
     // Constructeurs
     Component(component_t type, string label);
-    Component(component_t type, string label, Component &source);
+    Component(component_t type, string label, Component *source);
 
     // Destructeurs
     ~Component();
@@ -40,16 +48,35 @@ public:
     // Méthodes get
     virtual component_t getType() const;
     virtual string getLabel() const;
-    virtual Component &getSource() const;
+    virtual void getSource(Component* src) const;
+    virtual void setSource(Component* src);
+    virtual void getSource(string* src) const;
+    /*virtual Component  &getSource() const;
+    virtual string      getSource() const;*/
 
     // Interactions
     virtual dataValue read() const = 0;
     virtual void simulate() = 0;
     
 protected:
+    // Propriétés de base
     component_t type;
-    string label;
-    Component &source;
+    string      label;
+    Component*  source;                     // Pointeur vers le composant sources
+    string      source_str;                 // String indiquant le label de la source
+
+    // Map du type entre le string et component_t
+    typedef map<string, component_t> CTMap_t;
+    static CTMap_t& getCTMap() {
+        static CTMap_t CTMap = {
+            {"MEMORY",   MEMORY},
+            {"BUS",      BUS},
+            {"CPU",      CPU},
+            {"DISPLAY",  DISPLAY},
+            {"PLATFORM", PLATFORM}
+        };
+        return CTMap;
+    }
 };
 
 #endif // _COMPONENT_HPP_
