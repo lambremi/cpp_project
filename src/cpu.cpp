@@ -11,6 +11,15 @@
 
 #include "cpu.hpp"
 
+/**
+ * @brief Construct a new Cpu:: Cpu object
+ * 
+ * @param type - type (CPU)
+ * @param label - name of the CPU
+ * @param path_to_prog - path to the program to execute
+ * @param n_core - number of core
+ * @param freq - frequency of the CPU
+ */
 Cpu::Cpu(component_t type, string label, string path_to_prog, int n_core, int freq) : Component(type, label), 
 n_core(n_core),
 active_core(0),
@@ -21,11 +30,20 @@ prog(Program(path_to_prog))
     // cout << "CPU constructor" << endl;
 }
 
+/**
+ * @brief Destroy the Cpu:: Cpu object
+ * 
+ */
 Cpu::~Cpu()
 {
     // cout << "CPU destructor" << endl;
 }
 
+/**
+ * @brief read method of the CPU
+ * 
+ * @return dataValue - value read in the register with the validity flag
+ */
 dataValue Cpu::read()
 {
     dataValue value;
@@ -41,6 +59,10 @@ dataValue Cpu::read()
     }
 }
 
+/**
+ * @brief simualtion method for the CPU,
+ * execute the program in the CPU
+ */
 void Cpu::simulate()
 {
     for (int i = 0; i < freq; i++) {
