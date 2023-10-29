@@ -14,21 +14,6 @@
 #include <sstream>
 #include "platform.hpp"
 
-//----- Rescources liées à la lecture du fichier de définition
-// Initialisation des mots clés
-// const string Platform::keywords[] = {       // Mots clés des caractéristiques des composants
-//     "TYPE",
-//     "LABEL",
-//     "SOURCE",
-//     "WIDTH",
-//     "CORES",
-//     "FREQUENCY",
-//     "PROGRAM",
-//     "REFRESH",
-//     "SIZE",
-//     "ACCESS"
-// };
-
 //========== Private methods
 /**
  * @brief Récupère les chemins d'accès aux 
@@ -73,7 +58,7 @@ void Platform::readProperties(string path, compProperties_t *properties) {
 
     //----- Code
     // Initialisation de properties
-    properties->type = "";
+    properties->type = UNKNOWN;
     properties->label = "";
     properties->source = "";
     properties->program = "";
@@ -93,9 +78,9 @@ void Platform::readProperties(string path, compProperties_t *properties) {
     while (getline(file, line)) {
         istringstream iss(line);
         if (getline(iss, property, ':') && iss >> value/*getline(iss, ' ') && getline(iss, value)*/) {
-            switch (kwMap.at(property)) {
+            switch (getKWMap().at(property)) {
                 case TYPE:
-                    properties->type = value;
+                    properties->type = getCTMap().at(value);
                 break;
                 case LABEL:
                     properties->label = value;
@@ -165,38 +150,79 @@ Component* Platform::readComponent(string path) {
     compProperties_t properties;
     readProperties(path, &properties);
 
-    // FAIRE UN NOUVEAU MAP POUR LES TYPES DE COMPOSANTS
-    /*switch (kwMap.at(properties.type)) {
+    // Création des composants à proprement parlé
+    switch (properties.type) {
         case CPU:
-            cout << "CPU" << endl;
-            //component = new CPU(properties.label, properties.source, properties.program, properties.cores, properties.frequency);
+            cout << "NEW CPU" << endl;
+            /*component = new CPU(
+                properties.label,
+                properties.cores,
+                properties.frequency,
+                properties.program
+            );*/
         break;
         case BUS:
-            cout << "BUS" << endl;
-            //component = new Bus(properties.label, properties.source, properties.width);
+            cout << "NEW BUS" << endl;
+            /*component = new Bus(
+                properties.label,
+                properties.width,
+                properties.source
+            );*/
         break;
         case MEMORY:
-            cout << "MEMORY" << endl;
-            //component = new Memory(properties.label, properties.source, properties.size, properties.access);
+            cout << "NEW MEMORY" << endl;
+            /*component = new Memory(
+                properties.label,
+                properties.size,
+                properties.access,
+                properties.source
+            );*/
         break;
         case DISPLAY:
-            cout << "DISPLAY" << endl;
-            //component = new Display(properties.label, properties.source, properties.refresh);
+            cout << "NEW DISPLAY" << endl;
+            /*component = new Display(
+                properties.label,
+                properties.refresh,
+                properties.source
+            );*/
         break;
         default:
             
         break;
-    }*/
+    }
 
     return component;
 }
 
 /**
- * @brief 
+ * @brief Attache la source des composants
  * 
  */
 void Platform::bindComponent() {
-    /* TO DO */
+    // cout << "BIND" << endl;
+    int j = 0;
+    string source;
+
+    // Parcours de tous les composants de la plateforme
+    // cout << "----- " << components.size() << endl;
+    for (int i = 0; (size_t)i < components.size(); i=i+1) {
+        // cout << "----- " << i  << " : " << components[i] << endl;
+        // cout << "----- " << i  << " : " << components[i]->getLabel() << endl;
+        if (components[i] != nullptr) {
+            // Recherche de la source
+            components[i]->getSource(&source);
+            while ((size_t)j < components.size() && source != components[j]->getLabel())
+                j = j + 1;
+            
+            // Si la source est trouvée
+            if ((size_t)j < components.size())
+                components[i]->setSource(components[j]);
+
+            j = 0;
+        }
+        else
+            cerr << "Erreur lors de l'instanciation du composant " << i << endl;
+    }
 }
 
 //========== Constructors & destructors
@@ -210,28 +236,11 @@ void Platform::bindComponent() {
 Platform::Platform(string label, string def_file) : Component(PLATFORM, label) {
     vector<string*> paths = getPaths(def_file);
 
-    //----- Initialisation des mots clés
-    const string keywords[] = {       // Mots clés des caractéristiques des composants
-        "TYPE",
-        "LABEL",
-        "SOURCE",
-        "WIDTH",
-        "CORES",
-        "FREQUENCY",
-        "PROGRAM",
-        "REFRESH",
-        "SIZE",
-        "ACCESS"
-    };
-
-    for (int i = 0; i < (int)(sizeof(keywords)/sizeof(*keywords)); i=i+1)
-        kwMap.insert(KWMap_t::value_type(keywords[i], (keyword_t)i));
-
     //----- Lecture des composants
     for (int i = 0; (size_t)i < paths.size(); i=i+1)
-        readComponent(*paths[i]);
-
+        components.push_back(readComponent(*paths[i]));
     
+    bindComponent();
 }
 
 //----- Destructeurs

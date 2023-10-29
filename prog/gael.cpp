@@ -40,7 +40,7 @@ int main(/*int argc, char const *argv[]*/) {
 
     // cout << line << endl;
 
-    // cout << "fin" << endl;
+    cout << "----- EXEC DONE -----" << endl;
 
     return 0;
 }
