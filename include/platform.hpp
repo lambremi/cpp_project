@@ -18,6 +18,10 @@
 class Platform : public Component
 {
 private:
+    //----- Attributs
+    // Vecteur de composants
+    vector<Component*> components;
+
     //----- Rescources liées à la lecture des fichiers de définition
     // Mots clés des fichiers de définition
     typedef enum {
@@ -78,10 +82,8 @@ public:
     // Destructeurs
     ~Platform();
 
-    // Vecteur de composants
-    vector<Component*> components;
-
     // Interactions
+    vector<Component*> getComponents() const;
     dataValue read() override;
     void simulate() override;
 };

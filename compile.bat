@@ -40,7 +40,7 @@ if NOT ERRORLEVEL 1 (
 
 echo.
 echo [94m========== Exécution des tests ==========[0m
-ctest
+ctest --progress --output-on-failure
 call :print_errlevel %%errorlevel%%
 
 :end
