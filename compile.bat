@@ -23,6 +23,7 @@ if ERRORLEVEL 1 (
 
 echo.
 echo [94m========== Compilation du Makefile ==========[0m
+mingw32-make.exe clean
 mingw32-make.exe
 
 if NOT ERRORLEVEL 1 (
@@ -40,7 +41,8 @@ if NOT ERRORLEVEL 1 (
 
 echo.
 echo [94m========== Exécution des tests ==========[0m
-ctest --progress --output-on-failure
+ctest --output-on-failure
+@REM ctest -V --progress --output-on-failure
 call :print_errlevel %%errorlevel%%
 
 :end

@@ -1,10 +1,9 @@
-#include "cpu.hpp"
+#include "test.hpp"
 
-int main () {
-    Cpu cpu(CPU, "cpu", "../data/basic_program.txt", 2, 3);
+int test_cpu(Cpu cpu, string label) {
     dataValue value;
-    if (cpu.getLabel() != "cpu") {
-        cout << "Error: label is not \"cpu\"" << endl;
+    if (cpu.getLabel() != label) {
+        cout << "Error: label is not \"" << label << "\"" << endl;
         return 1;
     }
     if (cpu.getType() != CPU) {
@@ -41,4 +40,11 @@ int main () {
         return 1;
     }
     return 0;
+}
+
+int main () {
+    string label = "cpu";
+    Cpu cpu(CPU, label, "../data/basic_program.txt", 2, 3);
+    
+    return test_cpu(cpu, label);
 }

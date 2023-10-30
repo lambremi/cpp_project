@@ -12,7 +12,7 @@
 #ifndef _COMPONENT_HPP_
 #define _COMPONENT_HPP_
 
-#define _DEBUG_
+// #define _DEBUG_
 
 #include <string>
 #include <map>
