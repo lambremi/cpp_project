@@ -40,7 +40,7 @@ class Component
 public:
     // Constructeurs
     Component(component_t type, string label);
-    Component(component_t type, string label, Component *source);
+    Component(component_t type, string label, string source);
 
     // Destructeurs
     ~Component();

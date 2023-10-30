@@ -34,9 +34,9 @@ Component::Component(component_t type, string label) :  type(type),
  * @param label Nom de l'instance
  * @param source Référence vers le composant source
  */
-Component::Component(component_t type, string label, Component *source) :   type(type),
-                                                                            label(label), 
-                                                                            source(source) {
+Component::Component(component_t type, string label, string source) :   type(type),
+                                                                        label(label),
+                                                                        source_str(source) {
     
 }
 
