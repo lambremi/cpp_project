@@ -1,9 +1,6 @@
-#include "bus.hpp"
-#include "cpu.hpp"
+#include "test.hpp"
 
-int main() {
-    Cpu cpu(CPU, "source", "../data/basic_program.txt", 2, 3);
-    Bus bus(BUS, "bus", "source", 3);
+int test_bus(Cpu cpu, Bus bus) {
     Component* source = &cpu;
     if (bus.getReadCount() != 0) {
         cout << "Error: Expected bus to have 0 read count\n" << endl;
@@ -54,4 +51,11 @@ int main() {
         return 1;
     }
     return 0;
+}
+
+int main() {
+    Cpu cpu(CPU, "source", "../data/basic_program.txt", 2, 3);
+    Bus bus(BUS, "bus", "source", 3);
+    
+    return test_bus(cpu, bus);
 }

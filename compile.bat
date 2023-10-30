@@ -23,10 +23,12 @@ if ERRORLEVEL 1 (
 
 echo.
 echo [94m========== Compilation du Makefile ==========[0m
+mingw32-make.exe clean
 mingw32-make.exe
 
 if NOT ERRORLEVEL 1 (
-    for %%i in (*.exe) do (
+    @REM for %%i in (*.exe) do (
+    for /f %%i in ('dir /b ^| findstr /V /R "^test_.*\.exe$" ^| findstr /R .exe') do (
         echo.
         echo [94m---------- Exécution de %%~i ----------[0m
         %%~i
@@ -36,6 +38,12 @@ if NOT ERRORLEVEL 1 (
     echo.
     echo [41mErreur de compilation, veuillez voir le message GCC plus haut[0m
 )
+
+echo.
+echo [94m========== Exécution des tests ==========[0m
+ctest --output-on-failure
+@REM ctest -V --progress --output-on-failure
+call :print_errlevel %%errorlevel%%
 
 :end
 cd..

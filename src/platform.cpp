@@ -13,6 +13,10 @@
 #include <fstream>
 #include <sstream>
 #include "platform.hpp"
+#include "cpu.hpp"
+#include "bus.hpp"
+// #include "memory.hpp"
+// #include "display.hpp"
 
 //========== Private methods
 /**
@@ -77,7 +81,7 @@ void Platform::readProperties(string path, compProperties_t *properties) {
 
     while (getline(file, line)) {
         istringstream iss(line);
-        if (getline(iss, property, ':') && iss >> value/*getline(iss, ' ') && getline(iss, value)*/) {
+        if (getline(iss, property, ':') && iss.ignore(1, ' ') && getline(iss, value)) {
             switch (getKWMap().at(property)) {
                 case TYPE:
                     properties->type = getCTMap().at(value);
@@ -116,7 +120,9 @@ void Platform::readProperties(string path, compProperties_t *properties) {
         }
         lines.push_back(new string(line));
     }
+    #ifdef _DEBUG_
     printProperties(*properties);
+    #endif
 }
 
 /**
@@ -145,7 +151,9 @@ void Platform::printProperties(compProperties_t properties) {
  */
 Component* Platform::readComponent(string path) {
     Component* component = nullptr;
+    #ifdef _DEBUG_
     cout << "----- " << path << endl;
+    #endif
 
     compProperties_t properties;
     readProperties(path, &properties);
@@ -153,24 +161,32 @@ Component* Platform::readComponent(string path) {
     // Création des composants à proprement parlé
     switch (properties.type) {
         case CPU:
+            #ifdef _DEBUG_
             cout << "NEW CPU" << endl;
-            /*component = new CPU(
+            #endif
+            component = new Cpu(
+                properties.type,
                 properties.label,
+                properties.program,
                 properties.cores,
-                properties.frequency,
-                properties.program
-            );*/
+                properties.frequency
+            );
         break;
         case BUS:
+            #ifdef _DEBUG_
             cout << "NEW BUS" << endl;
-            /*component = new Bus(
+            #endif
+            component = new Bus(
+                properties.type,
                 properties.label,
-                properties.width,
-                properties.source
-            );*/
+                properties.source,
+                properties.width
+            );
         break;
         case MEMORY:
+            #ifdef _DEBUG_
             cout << "NEW MEMORY" << endl;
+            #endif
             /*component = new Memory(
                 properties.label,
                 properties.size,
@@ -179,7 +195,9 @@ Component* Platform::readComponent(string path) {
             );*/
         break;
         case DISPLAY:
+            #ifdef _DEBUG_
             cout << "NEW DISPLAY" << endl;
+            #endif
             /*component = new Display(
                 properties.label,
                 properties.refresh,
@@ -199,23 +217,30 @@ Component* Platform::readComponent(string path) {
  * 
  */
 void Platform::bindComponent() {
-    // cout << "BIND" << endl;
+    #ifdef _DEBUG_
+    cout << "============ BIND ============" << endl;
+    #endif
     int j = 0;
     string source;
 
     // Parcours de tous les composants de la plateforme
-    // cout << "----- " << components.size() << endl;
+    #ifdef _DEBUG_
+    cout << "Nombre de composants : " << components.size() << endl;
+    #endif
     for (int i = 0; (size_t)i < components.size(); i=i+1) {
-        // cout << "----- " << i  << " : " << components[i] << endl;
-        // cout << "----- " << i  << " : " << components[i]->getLabel() << endl;
         if (components[i] != nullptr) {
+            #ifdef _DEBUG_
+            cout << "----- " << i  << " : " << components[i]->getLabel() << endl;
+            #endif
             // Recherche de la source
             components[i]->getSource(&source);
-            while ((size_t)j < components.size() && source != components[j]->getLabel())
+            while ( (size_t)j < components.size()       && 
+                    components[j] != nullptr            && 
+                    source != components[j]->getLabel() )
                 j = j + 1;
             
             // Si la source est trouvée
-            if ((size_t)j < components.size())
+            if ((size_t)j < components.size() && components[j] != nullptr)
                 components[i]->setSource(components[j]);
 
             j = 0;
@@ -249,10 +274,20 @@ Platform::Platform(string label, string def_file) : Component(PLATFORM, label) {
  * 
  */
 Platform::~Platform() {
-    /* TODO */
+    for (int i = 0; (size_t)i < components.size(); i=i+1)
+        delete components[i];
 }
 
 //========== Public methods
+/**
+ * @brief Retourne les composants de la plateforme
+ * 
+ * @return vector<Component*> - Composants de la plateforme
+ */
+vector<Component*> Platform::getComponents() const {
+    return components;
+}
+
 /**
  * @brief Récupères les données de la plateforme
  * 
