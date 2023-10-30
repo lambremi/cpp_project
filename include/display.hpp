@@ -14,6 +14,10 @@
 #include "component.hpp"
 #include "dataValue.hpp"
 
+/**
+ * @brief class Display
+ * 
+ */
 class Display : public Component {
     private : 
         int refresh_rate;
