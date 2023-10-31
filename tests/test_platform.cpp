@@ -17,19 +17,24 @@
 
 using namespace std;
 
-int test_plateform(Platform platform) {
+int test_plateform(Platform* platform) {
+
+    #ifdef _DEBUG_
+    cout << "========== Start of test ==========" << endl;
+    #endif
+
     // Test the label and type
     #ifdef _DEBUG_
     cout << "Test the label and type" << endl;
     #endif
-    if (platform.getLabel() != "platform") {
+    if (platform->getLabel() != "platform") {
         cout << "Error: label is not \"platform\"" << endl;
         return 1;
     }
     #ifdef _DEBUG_
     cout << "Test the label and type" << endl;
     #endif
-    if (platform.getType() != PLATFORM) {
+    if (platform->getType() != PLATFORM) {
         cout << "Error: type is not PLATFORM" << endl;
         return 1;
     }
@@ -38,7 +43,7 @@ int test_plateform(Platform platform) {
     #ifdef _DEBUG_
     cout << "Test the components vector" << endl;
     #endif
-    vector<Component*> components = platform.getComponents();
+    vector<Component*> components = platform->getComponents();
     if (components.size() != 7) {
         cout << "Error: components vector size is not 7" << endl;
         return 1;
@@ -46,7 +51,7 @@ int test_plateform(Platform platform) {
 
     // Launch test on each components
     #ifdef _DEBUG_
-    cout << "Launch test on each components" << endl;
+    cout << "========== Launch test on each components ==========" << endl;
     #endif
     for (int i = 0; (size_t)i < components.size(); i=i+1) {
         #ifdef _DEBUG_
@@ -83,7 +88,7 @@ int test_plateform(Platform platform) {
                 cout << "DISPLAY : no test available yet" << endl;
             break;
             case PLATFORM:
-                if (!test_plateform(*(Platform*)components[i])) {
+                if (!test_plateform((Platform*)components[i])) {
                     cout << "Error: test_plateform() failed" << endl;
                     return 1;
                 }
@@ -95,11 +100,16 @@ int test_plateform(Platform platform) {
 
         }
     }
+
+    #ifdef _DEBUG_
+    cout << "========== End of test ==========" << endl;
+    #endif
+
     return 0;
 }
 
 int main() {
     Platform platform("platform", "../data/platform.txt");
 
-    return test_plateform(platform);
+    return test_plateform(&platform);
 }

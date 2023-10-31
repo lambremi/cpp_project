@@ -76,10 +76,10 @@ private:
     void bindComponent();
 
 public:
-    // Constructeurs
+    // Constructeur
     Platform(string label, string def_file);
     
-    // Destructeurs
+    // Destructeur
     ~Platform();
 
     // Interactions

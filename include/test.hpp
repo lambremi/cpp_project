@@ -19,6 +19,6 @@
 
 int test_cpu(Cpu cpu, string label);
 int test_bus(Bus bus);
-int test_plateform(Platform platform);
+int test_plateform(Platform* platform);
 
 #endif // TEST_HPP

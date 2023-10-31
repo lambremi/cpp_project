@@ -12,7 +12,7 @@
 #ifndef _COMPONENT_HPP_
 #define _COMPONENT_HPP_
 
-// #define _DEBUG_
+#define _DEBUG_
 
 #include <string>
 #include <map>
@@ -45,7 +45,7 @@ public:
     Component(component_t type, string label, string source);
 
     // Destructeurs
-    ~Component();
+    virtual ~Component() = 0;
 
     // Méthodes get
     virtual component_t getType() const;
@@ -53,8 +53,6 @@ public:
     virtual void getSource(Component* src) const;
     virtual void setSource(Component* src);
     virtual void getSource(string* src) const;
-    /*virtual Component  &getSource() const;
-    virtual string      getSource() const;*/
 
     // Interactions
     virtual dataValue read() = 0;

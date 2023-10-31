@@ -15,8 +15,8 @@
 #include "platform.hpp"
 #include "cpu.hpp"
 #include "bus.hpp"
-// #include "memory.hpp"
-// #include "display.hpp"
+#include "memory.hpp"
+#include "display.hpp"
 
 //========== Private methods
 /**
@@ -187,22 +187,24 @@ Component* Platform::readComponent(string path) {
             #ifdef _DEBUG_
             cout << "NEW MEMORY" << endl;
             #endif
-            /*component = new Memory(
+            component = new Memory(
+                properties.type,
                 properties.label,
                 properties.size,
                 properties.access,
                 properties.source
-            );*/
+            );
         break;
         case DISPLAY:
             #ifdef _DEBUG_
             cout << "NEW DISPLAY" << endl;
             #endif
-            /*component = new Display(
+            component = new Display(
+                properties.type,
                 properties.label,
-                properties.refresh,
-                properties.source
-            );*/
+                properties.source,
+                properties.refresh
+            );
         break;
         default:
             
@@ -232,18 +234,32 @@ void Platform::bindComponent() {
             #ifdef _DEBUG_
             cout << "----- " << i  << " : " << components[i]->getLabel() << endl;
             #endif
-            // Recherche de la source
+            // Recherche de la source sans bindé les composants qui n'en ont pas
             components[i]->getSource(&source);
-            while ( (size_t)j < components.size()       && 
-                    components[j] != nullptr            && 
-                    source != components[j]->getLabel() )
-                j = j + 1;
-            
-            // Si la source est trouvée
-            if ((size_t)j < components.size() && components[j] != nullptr)
-                components[i]->setSource(components[j]);
+            if (source != "") {
+                while ( (size_t)j < components.size()       && 
+                        components[j] != nullptr            && 
+                        source != components[j]->getLabel() )
+                    j = j + 1;
+                
+                // Si la source est trouvée
+                if ((size_t)j < components.size() && components[j] != nullptr) {
+                    components[i]->setSource(components[j]);
+                    #ifdef _DEBUG_
+                    cout << "Source : " << components[j]->getLabel() << endl;
+                    #endif
+                }
+                #ifdef _DEBUG_
+                else
+                    cout << "Source non trouvée" << endl;
+                #endif
 
-            j = 0;
+                j = 0;
+            }
+            #ifdef _DEBUG_
+            else
+                cout << "Pas de source" << endl;
+            #endif
         }
         else
             cerr << "Erreur lors de l'instanciation du composant " << i << endl;
@@ -274,8 +290,19 @@ Platform::Platform(string label, string def_file) : Component(PLATFORM, label) {
  * 
  */
 Platform::~Platform() {
-    for (int i = 0; (size_t)i < components.size(); i=i+1)
+    #ifdef _DEBUG_
+    cout << "============ DESTROY @ " << this << " ============" << endl;
+    cout << "Nombre de composants : " << components.size() << endl;
+    #endif
+    for (int i = 0; (size_t)i < components.size(); i=i+1) {
+        #ifdef _DEBUG_
+        cout << "----- " << i  << " : " << components[i]->getLabel() << endl;
+        #endif
         delete components[i];
+    }
+    #ifdef _DEBUG_
+    cout << "============ END DESTROY ============" << endl;
+    #endif
 }
 
 //========== Public methods

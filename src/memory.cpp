@@ -1,0 +1,150 @@
+/**
+ * @file memory.cpp
+ * @author LAMBERT Rémi & OUSSET Gaël
+ * @brief Module memory
+ * @version 0.1
+ * @date 2023-10-31
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
+
+#include "memory.hpp"
+
+#ifdef _DEBUG_
+#include <iostream>
+#endif
+
+/**
+ * @brief Construct a new Memory:: Memory object
+ * 
+ * @param type Type de composant
+ * @param label Label du composant
+ * @param size Taille de la mémoire
+ * @param access Temps d'accès de la mémoire
+ * @param source Source de données de la mémoire
+ */
+Memory::Memory(
+    component_t type,
+    string label,
+    int size,
+    int access,
+    string source
+) : Component(type, label, source),
+    // size(size),
+    access(access) {
+    // Création du circular buffer
+    readPtr = createMem(size);
+    writePtr = readPtr;
+    wait = 0;
+}
+
+/**
+ * @brief Destroy the Memory:: Memory object
+ * 
+ */
+Memory::~Memory() {
+    deleteMem(readPtr);
+}
+
+/**
+ * @brief Créer un circular buffer
+ * 
+ * @param size Taille du circular buffer
+ * @return memElement_t* Pointeur vers le
+ * premier élément du circular buffer
+ */
+Memory::memElement_t* Memory::createMem(int size) {
+    memElement_t* first;
+    memElement_t* current;
+    memElement_t* previous;
+
+    // Création du premier élément
+    first = new memElement_t;
+    first->value.value = 0;
+    first->value.flag = false;
+    previous = first;
+
+    // Création des éléments suivants
+    for (int i = 1; i < size; i=i+1) {
+        current = new memElement_t;
+        current->value.value = 0;
+        current->value.flag = false;
+        previous->next = current;
+        previous = current;
+    }
+    previous->next = first;
+
+    return first;
+}
+
+/**
+ * @brief Détruit un circular buffer
+ * 
+ * @param mem Pointeur sur un élément du 
+ * circular buffer
+ */
+void Memory::deleteMem(memElement_t* mem) {
+    memElement_t* current = mem;
+
+    while (current->next != mem) {
+        memElement_t* next = current->next;
+        delete current;
+        current = next;
+    }
+}
+
+/**
+ * @brief Retourne le temps d'accès de la mémoire
+ * 
+ * @return int - Temps d'accès
+ */
+int Memory::getAccess() {
+    return access;
+}
+
+/**
+ * @brief Lit la mémoire
+ * 
+ * @return dataValue - Dernière valeur disponible 
+ */
+dataValue Memory::read() {
+    dataValue returnedValue = readPtr->value;
+    readPtr->value.flag = false;
+    readPtr = readPtr->next;
+    return returnedValue;
+}
+
+void Memory::write(dataValue value) {
+    writePtr->value = value;
+    // writePtr->value.flag = true;            // Devrait déjà être à true
+    writePtr = writePtr->next;
+}
+
+/**
+ * @brief Simule la mémoire : si la mémoire
+ * est prête elle lit toutes les données de 
+ * la source
+ * 
+ */
+void Memory::simulate() {
+    dataValue readValue;
+    // Mémoire en attente
+    if (wait < access)
+        wait = wait + 1;
+    // Mémoire prête : on lit toutes les données disponibles sur la source
+    else {
+        wait = 0;
+        if (source != NULL) {
+            readValue = source->read();
+            while (readValue.flag) {
+                write(readValue);
+                readValue = source->read();
+            }
+        }
+        #ifdef _DEBUG_
+        else
+            cout << "Erreur : la mémoire " << label << " n'a pas de source" << endl;
+        #endif
+    }
+}
