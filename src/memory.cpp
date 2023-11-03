@@ -1,5 +1,5 @@
 /**
- * @file memory.cpp
+ * @file this->cpp
  * @author LAMBERT Rémi & OUSSET Gaël
  * @brief Module memory
  * @version 0.1
@@ -147,4 +147,50 @@ void Memory::simulate() {
             cout << "Erreur : la mémoire " << label << " n'a pas de source" << endl;
         #endif
     }
+}
+
+/**
+ * @brief Test l'instance de la classe Memory
+ * 
+ * @param label Label attendu
+ * @param access Temps d'accès attendu
+ * @return int - 1 si erreur, 0 sinon
+ */
+int Memory::test(string label, int access) {
+    // Test the label and type
+    if (this->getLabel() != label) {
+        cout << "Error: label is not \"" << label << "\"" << endl;
+        return 1;
+    }
+    if (this->getType() != MEMORY) {
+        cout << "Error: type is not MEMORY" << endl;
+        return 1;
+    }
+
+    // Test the access time
+    if (this->getAccess() != access) {
+        cout << "Error: access time is not " << access << endl;
+        return 1;
+    }
+
+    // Test the read and write methods
+    dataValue value;
+    value.value = 10;
+    value.flag = true;
+    this->write(value);
+    dataValue readValue = this->read();
+    if (readValue.value != 10 || readValue.flag != true) {
+        cout << "Error: read value is not correct" << endl;
+        return 1;
+    }
+
+    // Test the simulate method
+    this->simulate();
+    readValue = this->read();
+    if (readValue.flag != false) {
+        cout << "Error: read flag is not false after simulate" << endl;
+        return 1;
+    }
+
+    return 0;
 }

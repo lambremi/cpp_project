@@ -36,7 +36,6 @@ private:
     void write(dataValue value);
 
     // Attributs
-    // int size;                               // Memory size
     int access;                             // Access time
     int wait;                               // Wait time
 
@@ -59,14 +58,14 @@ public:
     ~Memory();
 
     // Interface
-    // int getSize();
     int getAccess();
-    /*void setSize(int size);
-    void setAccess(int access);*/
 
     // Interaction
     dataValue read() override;
     void simulate()  override;
+
+    // Test
+    int test(string label, int access);
 };
 
 #endif // _MEMORY_HPP_
