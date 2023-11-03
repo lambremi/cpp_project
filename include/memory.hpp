@@ -39,11 +39,6 @@ private:
     int access;                             // Access time
     int wait;                               // Wait time
 
-    // Rescources liées au test
-    #ifdef _TEST_HPP_
-    friend int test_memory(Memory mem, std::string label, int size, int access);
-    #endif
-
 public:
     // Constructeur
     Memory(
@@ -65,7 +60,7 @@ public:
     void simulate()  override;
 
     // Test
-    int test(string label, int access);
+    int test(string label, int access) /*override*/;
 };
 
 #endif // _MEMORY_HPP_

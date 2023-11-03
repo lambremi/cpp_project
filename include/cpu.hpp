@@ -38,6 +38,7 @@ public:
     ~Cpu();
     virtual dataValue read() override;
     virtual void simulate();
+    virtual int  test(string label) /*override*/;
 };
 
 #endif // _CPU_HPP_

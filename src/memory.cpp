@@ -11,9 +11,7 @@
 
 #include "memory.hpp"
 
-#ifdef _DEBUG_
 #include <iostream>
-#endif
 
 /**
  * @brief Construct a new Memory:: Memory object

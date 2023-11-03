@@ -12,7 +12,7 @@
 #ifndef _COMPONENT_HPP_
 #define _COMPONENT_HPP_
 
-#define _DEBUG_
+// #define _DEBUG_
 
 #include <string>
 #include <map>
@@ -57,6 +57,7 @@ public:
     // Interactions
     virtual dataValue read() = 0;
     virtual void simulate() = 0;
+    // virtual int  test() = 0;
     
 protected:
     // Propriétés de base

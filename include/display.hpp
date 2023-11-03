@@ -26,8 +26,8 @@ class Display : public Component {
         Display(component_t type, string label, string src, int refresh_rate);
         ~Display();
         int getRefreshRate();
-        void simulate() override;
         dataValue read() override;
+        void simulate() override;
 };
 
 #endif // DISPLAY_HPP

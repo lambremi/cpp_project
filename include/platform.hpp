@@ -86,6 +86,7 @@ public:
     vector<Component*> getComponents() const;
     dataValue read() override;
     void simulate() override;
+    int test(string label, size_t nb_comp);
 };
 
 #endif // _PLATFORM_HPP_

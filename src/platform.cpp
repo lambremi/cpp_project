@@ -332,3 +332,95 @@ dataValue Platform::read() {
 void Platform::simulate() {
     /* TODO */
 }
+
+int Platform::test(string label, size_t nb_comp) {
+
+    #ifdef _DEBUG_
+    cout << "========== Start of test ==========" << endl;
+    #endif
+
+    // Test the label and type
+    #ifdef _DEBUG_
+    cout << "Test the label and type" << endl;
+    #endif
+    if (this->getLabel() != label) {
+        cout << "Error: label is not \"" << label << "\"" << endl;
+        return 1;
+    }
+    #ifdef _DEBUG_
+    cout << "Test the label and type" << endl;
+    #endif
+    if (this->getType() != PLATFORM) {
+        cout << "Error: type is not PLATFORM" << endl;
+        return 1;
+    }
+
+    // Test the components vector
+    #ifdef _DEBUG_
+    cout << "Test the components vector" << endl;
+    #endif
+    vector<Component*> components = this->getComponents();
+    if (components.size() != nb_comp) {
+        cout << "Error: components vector size is not "<< nb_comp << endl;
+        return 1;
+    }
+
+    // Launch test on each components
+    #ifdef _DEBUG_
+    cout << "========== Launch test on each components ==========" << endl;
+    #endif
+    for (int i = 0; (size_t)i < components.size(); i=i+1) {
+        #ifdef _DEBUG_
+        if (components[i] != nullptr) {
+            cout << "Test on component " << components[i]->getLabel() << endl;
+        }
+        else {
+            cout << "Test on component " << i << " is nullptr" << endl;
+        }
+        #endif
+        switch (components[i]->getType()) {
+            case UNKNOWN:
+                cout << "Error: unknown component type" << endl;
+                return 1;
+            break;
+            case MEMORY:
+                cout << "MEMORY : no test available yet" << endl;
+            break;
+            case BUS:
+                cout << "BUS : no test available yet" << endl;
+                /*if (!test_bus(*(Bus*)components[i])) {
+                    cout << "Error: test_bus() failed" << endl;
+                    return 1;
+                }*/
+            break;
+            case CPU:
+                cout << "CPU : no test available yet" << endl;
+                // if (!test_cpu(*(Cpu*)components[i], components[i]->getLabel()/*"cpu" + to_string(i+1)*/)) {
+                    // cout << "Error: test_cpu() failed" << endl;
+                    // return 1;
+                // }*/
+            break;
+            case DISPLAY:
+                cout << "DISPLAY : no test available yet" << endl;
+            break;
+            case PLATFORM:
+                /*if (!test_plateform((Platform*)components[i])) {
+                    cout << "Error: test_plateform() failed" << endl;
+                    return 1;
+                }*/
+                cout << "PLATFORM : no test available yet" << endl;
+            break;
+            default:
+                cout << "Error: unknown component type" << endl;
+                return 1;
+            break;
+
+        }
+    }
+
+    #ifdef _DEBUG_
+    cout << "========== End of test ==========" << endl;
+    #endif
+
+    return 0;
+}
