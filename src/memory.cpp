@@ -151,10 +151,10 @@ void Memory::simulate() {
  * @brief Test l'instance de la classe Memory
  * 
  * @param label Label attendu
- * @param access Temps d'accès attendu
+ * @param tst_arg Temps d'accès attendu
  * @return int - 1 si erreur, 0 sinon
  */
-int Memory::test(string label, int access) {
+int Memory::test(string label, int tst_arg) {
     // Test the label and type
     if (this->getLabel() != label) {
         cout << "Error: label is not \"" << label << "\"" << endl;
@@ -166,8 +166,8 @@ int Memory::test(string label, int access) {
     }
 
     // Test the access time
-    if (this->getAccess() != access) {
-        cout << "Error: access time is not " << access << endl;
+    if (this->getAccess() != tst_arg) {
+        cout << "Error: access time is not " << tst_arg << endl;
         return 1;
     }
 

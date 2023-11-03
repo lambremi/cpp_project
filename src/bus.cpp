@@ -98,11 +98,11 @@ int Bus::getWidth() const {
  * @brief Test l'instance du bus
  * 
  * @param label Label attendu du bus
- * @param width Largeur attendu du bus
+ * @param tst_arg Largeur attendu du bus
  * @return int - 1 si erreur, 0 sinon
  */
-int Bus::test(string label, int width) {
-    Cpu cpu(CPU, "source", "../data/basic_program.txt", 2, 3);
+int Bus::test(string label, int tst_arg) {
+    Cpu cpu(CPU, "source", "data/basic_program.txt", 2, 3);
     Component* source = &cpu;
 
     if (this->getLabel() != label) {
@@ -117,8 +117,8 @@ int Bus::test(string label, int width) {
         cout << "Error: Expected bus to have 0 read count\n" << endl;
         return 1;
     }
-    if (this->getWidth() != width) {
-        cout << "Error: Expected bus to have width" << width << "\n" << endl;
+    if (this->getWidth() != tst_arg) {
+        cout << "Error: Expected bus to have width" << tst_arg << "\n" << endl;
         return 1;
     }
     this->setSource(&cpu);

@@ -13,7 +13,6 @@
 #define _MEMORY_HPP_
 
 #include "component.hpp"
-// #include "test.hpp"
 
 class Memory : public Component
 {
@@ -60,7 +59,7 @@ public:
     void simulate()  override;
 
     // Test
-    int test(string label, int access) /*override*/;
+    int test(string label, int tst_arg = 0) override;
 };
 
 #endif // _MEMORY_HPP_

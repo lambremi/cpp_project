@@ -1,7 +1,7 @@
 #include "program.hpp"
 
 int main() {
-    Program program("../data/program.txt");
+    Program program("data/program.txt");
     decode_t instruction;
     double result;
 

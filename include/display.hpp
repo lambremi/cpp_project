@@ -28,6 +28,7 @@ class Display : public Component {
         int getRefreshRate();
         dataValue read() override;
         void simulate() override;
+        int test(string label, int tst_arg = 0) override;
 };
 
 #endif // DISPLAY_HPP

@@ -333,22 +333,31 @@ void Platform::simulate() {
     /* TODO */
 }
 
-int Platform::test(string label, size_t nb_comp) {
+int Platform::test(string label, int tst_arg) {
+    //----- Déclaration des variables
+    vector<Component*> components;
+    Memory* mem = nullptr;
+    Bus* bus = nullptr;
+    Cpu* cpu = nullptr;
+    Display* display = nullptr;
+    Platform* platform = nullptr;
+    int return_value;
 
+    //----- Code
     #ifdef _DEBUG_
     cout << "========== Start of test ==========" << endl;
     #endif
 
     // Test the label and type
     #ifdef _DEBUG_
-    cout << "Test the label and type" << endl;
+    cout << "Test the label" << endl;
     #endif
     if (this->getLabel() != label) {
         cout << "Error: label is not \"" << label << "\"" << endl;
         return 1;
     }
     #ifdef _DEBUG_
-    cout << "Test the label and type" << endl;
+    cout << "Test the type" << endl;
     #endif
     if (this->getType() != PLATFORM) {
         cout << "Error: type is not PLATFORM" << endl;
@@ -359,9 +368,9 @@ int Platform::test(string label, size_t nb_comp) {
     #ifdef _DEBUG_
     cout << "Test the components vector" << endl;
     #endif
-    vector<Component*> components = this->getComponents();
-    if (components.size() != nb_comp) {
-        cout << "Error: components vector size is not "<< nb_comp << endl;
+    components = this->getComponents();
+    if (components.size() != size_t(tst_arg)) {
+        cout << "Error: components vector size is not "<< tst_arg << endl;
         return 1;
     }
 
@@ -372,10 +381,10 @@ int Platform::test(string label, size_t nb_comp) {
     for (int i = 0; (size_t)i < components.size(); i=i+1) {
         #ifdef _DEBUG_
         if (components[i] != nullptr) {
-            cout << "Test on component " << components[i]->getLabel() << endl;
+            cout << "----- Test on " << components[i]->getLabel() << endl;
         }
         else {
-            cout << "Test on component " << i << " is nullptr" << endl;
+            cout << "Test on " << i << " is nullptr" << endl;
         }
         #endif
         switch (components[i]->getType()) {
@@ -384,38 +393,53 @@ int Platform::test(string label, size_t nb_comp) {
                 return 1;
             break;
             case MEMORY:
-                cout << "MEMORY : no test available yet" << endl;
+                mem = (Memory*)components[i];
+                return_value = mem->test(mem->getLabel(), mem->getAccess());
+                if (return_value != 0) {
+                    cout << "Error: test failed, return value is " << return_value << endl;
+                    return 1;
+                }
             break;
             case BUS:
-                cout << "BUS : no test available yet" << endl;
-                /*if (!test_bus(*(Bus*)components[i])) {
-                    cout << "Error: test_bus() failed" << endl;
+                bus = (Bus*)components[i];
+                return_value = bus->test(bus->getLabel(), bus->getWidth());
+                if (return_value != 0) {
+                    cout << "Error: test failed, return value is " << return_value << endl;
                     return 1;
-                }*/
+                }
             break;
             case CPU:
-                cout << "CPU : no test available yet" << endl;
-                // if (!test_cpu(*(Cpu*)components[i], components[i]->getLabel()/*"cpu" + to_string(i+1)*/)) {
-                    // cout << "Error: test_cpu() failed" << endl;
-                    // return 1;
-                // }*/
+                cpu = (Cpu*)components[i];
+                return_value = cpu->test(cpu->getLabel()/*, cpu->getFrequency()*/);
+                if (return_value != 0) {
+                    cout << "Error: test failed, return value is " << return_value << endl;
+                    return 1;
+                }
             break;
             case DISPLAY:
-                cout << "DISPLAY : no test available yet" << endl;
+                display = (Display*)components[i];
+                return_value = display->test(display->getLabel(), display->getRefreshRate());
+                if (return_value != 0) {
+                    cout << "Error: test failed, return value is " << return_value << endl;
+                    return 1;
+                }
             break;
             case PLATFORM:
-                /*if (!test_plateform((Platform*)components[i])) {
-                    cout << "Error: test_plateform() failed" << endl;
+                platform = (Platform*)components[i];
+                return_value = platform->test(platform->getLabel(), (int)platform->getComponents().size());
+                if (return_value != 0) {
+                    cout << "Error: test failed, return value is " << return_value << endl;
                     return 1;
-                }*/
-                cout << "PLATFORM : no test available yet" << endl;
+                }
             break;
             default:
                 cout << "Error: unknown component type" << endl;
                 return 1;
             break;
-
         }
+        #ifdef _DEBUG_
+        cout << "PASS" << endl;
+        #endif
     }
 
     #ifdef _DEBUG_

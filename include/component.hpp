@@ -57,7 +57,7 @@ public:
     // Interactions
     virtual dataValue read() = 0;
     virtual void simulate() = 0;
-    // virtual int  test() = 0;
+    virtual int test(string label, int tst_arg = 0) = 0;
     
 protected:
     // Propriétés de base

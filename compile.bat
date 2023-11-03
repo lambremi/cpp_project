@@ -37,6 +37,7 @@ if NOT ERRORLEVEL 1 (
 ) else (
     echo.
     echo [41mErreur de compilation, veuillez voir le message GCC plus haut[0m
+    goto end
 )
 
 echo.
