@@ -13,6 +13,7 @@
 #define _MEMORY_HPP_
 
 #include "component.hpp"
+// #include "test.hpp"
 
 class Memory : public Component
 {
@@ -38,6 +39,11 @@ private:
     // int size;                               // Memory size
     int access;                             // Access time
     int wait;                               // Wait time
+
+    // Rescources liées au test
+    #ifdef _TEST_HPP_
+    friend int test_memory(Memory mem, std::string label, int size, int access);
+    #endif
 
 public:
     // Constructeur
