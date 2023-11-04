@@ -36,8 +36,9 @@ private:
 public:
     Cpu(component_t type, string label, string path_to_prog, int n_core, int freq);
     ~Cpu();
-    virtual dataValue read() override;
-    virtual void simulate();
+    dataValue read() override;
+    void simulate()  override;
+    int test(string label, int tst_arg = 0) override;
 };
 
 #endif // _CPU_HPP_

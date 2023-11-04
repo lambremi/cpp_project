@@ -15,7 +15,7 @@
  * 
  * @param path 
  */
-Program::Program(string path) : path(path) {
+Program::Program(string path) : path("../" + path) {
     pc = 0;
 }
 
@@ -87,7 +87,7 @@ decode_t Program::decode() {
         return instr_decode;
     }
     else {
-        cout << "Error: Unable to open file" << endl;
+        cout << "Error: Unable to open file " << path << endl;
         exit(1);
     }
 }

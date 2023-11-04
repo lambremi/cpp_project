@@ -326,9 +326,159 @@ dataValue Platform::read() {
 }
 
 /**
- * @brief Lance la simulation de la plateforme
+ * @brief Lance un cycle de simulation de la plateforme
  * 
  */
 void Platform::simulate() {
-    /* TODO */
+        for (int j = 0; (size_t)j < components.size(); j=j+1) {
+            #ifdef _DEBUG_
+            cout << "----- " << j  << " : " << components[j]->getLabel() << endl;
+            #endif
+            components[j]->simulate();
+        }
+}
+
+/**
+ * @brief Lance une simulation de la plateforme
+ * sur un nombre de cycles donné
+ * 
+ * @param cycles Nombre de cycles à simuler
+ */
+void Platform::simulate(int cycles) {
+    #ifdef _DEBUG_
+    cout << "============ SIMULATE ============" << endl;
+    #endif
+    for (int i = 0; i < cycles; i=i+1) {
+        #ifdef _DEBUG_
+        cout << "---------- Cycle " << i << endl;
+        #endif
+        simulate();
+    }
+
+    #ifdef _DEBUG_
+    cout << "============ END SIMULATE ============" << endl;
+    #endif
+}
+
+/**
+ * @brief Test une instance de la classe Platform
+ * 
+ * @param label Label attendu
+ * @param tst_arg Nombre de composants attendu
+ * @return int - 1 si erreur, 0 sinon
+ */
+int Platform::test(string label, int tst_arg) {
+    //----- Déclaration des variables
+    vector<Component*> components;
+    Memory* mem = nullptr;
+    Bus* bus = nullptr;
+    Cpu* cpu = nullptr;
+    Display* display = nullptr;
+    Platform* platform = nullptr;
+    int return_value;
+
+    //----- Code
+    #ifdef _DEBUG_
+    cout << "========== Start of test ==========" << endl;
+    #endif
+
+    // Test the label and type
+    #ifdef _DEBUG_
+    cout << "Test the label" << endl;
+    #endif
+    if (this->getLabel() != label) {
+        cout << "Error: label is not \"" << label << "\"" << endl;
+        return 1;
+    }
+    #ifdef _DEBUG_
+    cout << "Test the type" << endl;
+    #endif
+    if (this->getType() != PLATFORM) {
+        cout << "Error: type is not PLATFORM" << endl;
+        return 1;
+    }
+
+    // Test the components vector
+    #ifdef _DEBUG_
+    cout << "Test the components vector" << endl;
+    #endif
+    components = this->getComponents();
+    if (components.size() != size_t(tst_arg)) {
+        cout << "Error: components vector size is not "<< tst_arg << endl;
+        return 1;
+    }
+
+    // Launch test on each components
+    #ifdef _DEBUG_
+    cout << "========== Launch test on each components ==========" << endl;
+    #endif
+    for (int i = 0; (size_t)i < components.size(); i=i+1) {
+        #ifdef _DEBUG_
+        if (components[i] != nullptr) {
+            cout << "----- Test on " << components[i]->getLabel() << endl;
+        }
+        else {
+            cout << "Test on " << i << " is nullptr" << endl;
+        }
+        #endif
+        switch (components[i]->getType()) {
+            case UNKNOWN:
+                cout << "Error: unknown component type" << endl;
+                return 1;
+            break;
+            case MEMORY:
+                mem = (Memory*)components[i];
+                return_value = mem->test(mem->getLabel(), mem->getAccess());
+                if (return_value != 0) {
+                    cout << "Error: test failed, return value is " << return_value << endl;
+                    return 1;
+                }
+            break;
+            case BUS:
+                bus = (Bus*)components[i];
+                return_value = bus->test(bus->getLabel(), bus->getWidth());
+                if (return_value != 0) {
+                    cout << "Error: test failed, return value is " << return_value << endl;
+                    return 1;
+                }
+            break;
+            case CPU:
+                cpu = (Cpu*)components[i];
+                return_value = cpu->test(cpu->getLabel()/*, cpu->getFrequency()*/);
+                if (return_value != 0) {
+                    cout << "Error: test failed, return value is " << return_value << endl;
+                    return 1;
+                }
+            break;
+            case DISPLAY:
+                display = (Display*)components[i];
+                return_value = display->test(display->getLabel(), display->getRefreshRate());
+                if (return_value != 0) {
+                    cout << "Error: test failed, return value is " << return_value << endl;
+                    return 1;
+                }
+            break;
+            case PLATFORM:
+                platform = (Platform*)components[i];
+                return_value = platform->test(platform->getLabel(), (int)platform->getComponents().size());
+                if (return_value != 0) {
+                    cout << "Error: test failed, return value is " << return_value << endl;
+                    return 1;
+                }
+            break;
+            default:
+                cout << "Error: unknown component type" << endl;
+                return 1;
+            break;
+        }
+        #ifdef _DEBUG_
+        cout << "PASS" << endl;
+        #endif
+    }
+
+    #ifdef _DEBUG_
+    cout << "========== End of test ==========" << endl;
+    #endif
+
+    return 0;
 }

@@ -34,6 +34,7 @@ class Bus : public Component
         void simulate() override;
         int getReadCount() const;
         int getWidth() const;
+        int test(string label, int tst_arg = 0) override;
 };
 
 #endif // BUS_HPP

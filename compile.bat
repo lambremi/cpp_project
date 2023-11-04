@@ -31,12 +31,13 @@ if NOT ERRORLEVEL 1 (
     for /f %%i in ('dir /b ^| findstr /V /R "^test_.*\.exe$" ^| findstr /R .exe') do (
         echo.
         echo [94m---------- Exécution de %%~i ----------[0m
-        %%~i
+        %%~i test ../data/platform.txt 1000
         call :print_errlevel %%errorlevel%%
     )
 ) else (
     echo.
     echo [41mErreur de compilation, veuillez voir le message GCC plus haut[0m
+    goto end
 )
 
 echo.

@@ -10,6 +10,8 @@
  */
 
 #include "bus.hpp"
+#include "cpu.hpp"
+#include <iostream>
 
 /**
  * @brief Constructeur de la classe Bus
@@ -90,4 +92,74 @@ int Bus::getReadCount() const {
 
 int Bus::getWidth() const {
     return width;
+}
+
+/**
+ * @brief Test l'instance du bus
+ * 
+ * @param label Label attendu du bus
+ * @param tst_arg Largeur attendu du bus
+ * @return int - 1 si erreur, 0 sinon
+ */
+int Bus::test(string label, int tst_arg) {
+    Cpu cpu(CPU, "source", "data/basic_program.txt", 2, 3);
+    Component* source = &cpu;
+
+    if (this->getLabel() != label) {
+        cout << "Error: label is not \"" << label << "\"" << endl;
+        return 1;
+    }
+    if (this->getType() != BUS) {
+        cout << "Error: type is not BUS" << endl;
+        return 1;
+    }
+    if (this->getReadCount() != 0) {
+        cout << "Error: Expected bus to have 0 read count\n" << endl;
+        return 1;
+    }
+    if (this->getWidth() != tst_arg) {
+        cout << "Error: Expected bus to have width" << tst_arg << "\n" << endl;
+        return 1;
+    }
+    this->setSource(&cpu);
+    this->getSource(source);
+    if (source->getType() != CPU) {
+        cout << "Error: Expected bus to have cpu as source\n" << endl;
+        return 1;
+    }
+    if (this->read().flag) {
+        cout << "Error: Expected bus to be empty\n" << endl;
+        return 1;
+    }
+    cpu.simulate();
+    this->simulate();
+    this->simulate();
+    dataValue value = this->read();
+    if (this->getReadCount() != 2) {
+        cout << "Error: Expected bus to have 2 read count\n" << endl;
+        return 1;
+    }
+    if (!value.flag) {
+        cout << "Error: Expected bus to be not empty 1\n" << endl;
+        return 1;
+    }
+    if (value.value != 5) {
+        cout << "Error: Expected bus to first read 5\n" << endl;
+        return 1;
+    }
+    value = this->read();
+    if (!value.flag) {
+        cout << "Error: Expected bus to be not empty 2\n" << endl;
+        return 1;
+    }
+    if (value.value != 5) {
+        cout << "Error: Expected bus to second read 5\n" << endl;
+        return 1;
+    }
+    value = this->read();
+    if (value.flag) {
+        cout << "Error: Expected bus to be empty\n" << endl;
+        return 1;
+    }
+    return 0;
 }

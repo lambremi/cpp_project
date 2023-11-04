@@ -1,6 +1,3 @@
-// #include <iostream>
-// #include "platform.hpp"
-
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -11,37 +8,26 @@
 
 using namespace std;
 
-int main(/*int argc, char const *argv[]*/) {
-/*
-    string def_file = "../data/platform.txt";
-    vector<string*> paths;
+int main(int argc, char const *argv[]) {
 
-    ifstream file(def_file);
-
-    if (!file.is_open()) {
-        cerr << "Erreur lors de l'ouverture du fichier de définition " << def_file << endl;
-        exit(EXIT_FAILURE);
+    if (argc < 4 || (argc >= 2 && (string(argv[1]) == "/?" || string(argv[1]) == "-h" || string(argv[1]) == "--help"))) {
+        cout << "========== Description ==========" << endl;
+        cout << "Simulateur de plateforme" << endl << endl;
+        cout << "========== Usage ==========" << endl;
+        cout << argv[0] << " [/?] platorm_name platform_def_file [nb_cycle]" << endl << endl;
+        cout << "/?\t\t\tAffiche l'aide" << endl;
+        cout << "plateform_name\t\tNom de la plateforme" << endl;
+        cout << "platform_def_file\tFichier de définition de la plateforme" << endl;
+        cout << "nb_cycle\t\tNombre de cycle à simuler, 1 par défaut" << endl;
+        return 0;
     }
 
-    string line;
-    while (getline(file, line)) {
-        istringstream iss(line);
-        cout << line << endl;
-        paths.push_back(new string(line));
-    }
-*/
-    Platform platform("test", "../data/platform.txt");
-    // cout << "ouvert" << endl;
+    Platform platform(argv[1], argv[2]);
 
-    
-    // file.read((char*)&line, sizeof(line));
-
-    // cout << "lu" << endl;
-
-    // cout << line << endl;
+    platform.simulate(atoi(argv[3]));
 
     #ifdef DEBUG
-    cout << "----- EXEC DONE -----" << endl;
+    cout << "========== EXEC DONE ==========" << endl;
     #endif
     
     return 0;

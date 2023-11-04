@@ -10,6 +10,7 @@
  */
 
 #include "display.hpp"
+#include "cpu.hpp"
 #include <iostream>
 
 using namespace std;
@@ -74,4 +75,33 @@ dataValue Display::read() {
     value.flag = false;
     value.value = 0;
     return value;
+}
+
+int Display::test(string label, int tst_arg) {
+    Cpu cpu(CPU, "source", "data/basic_program.txt", 2, 3);
+    Component* source = &cpu;
+
+    // Test the label and type
+    if (this->getLabel() != label) {
+        cout << "Error: label is not \"" << label << "\"" << endl;
+        return 1;
+    }
+    if (this->getType() != DISPLAY) {
+        cout << "Error: type is not DISPLAY" << endl;
+        return 1;
+    }
+
+    if (this->getRefreshRate() != tst_arg) {
+        cout << "Error: Expected display to have refresh rate " << tst_arg << "\n" << endl;
+        return 1;
+    }
+    this->setSource(&cpu);
+    this->getSource(source);
+    if (source->getType() != CPU) {
+        cout << "Error: Expected display to have cpu as source\n" << endl;
+        return 1;
+    }
+    cpu.simulate();
+    this->simulate();
+    return 0;
 }
