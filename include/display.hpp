@@ -23,7 +23,7 @@ class Display : public Component {
         int refresh_rate;
         int current_refresh;
     public : 
-        Display(component_t type, string label, string src, int refresh_rate);
+        Display(component_t type, string src, int refresh_rate);
         ~Display();
         int getRefreshRate();
         dataValue read() override;

@@ -2,7 +2,7 @@
 #include "cpu.hpp"
 
 int main() {
-    Display disp(DISPLAY, "display", "source", 2);
+    Display disp(DISPLAY, "source", 2);
 
     return disp.test("display", 2);
 }

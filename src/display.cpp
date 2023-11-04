@@ -19,11 +19,10 @@ using namespace std;
  * @brief Construct a new Display:: Display object
  * 
  * @param type - type of the component (DISPLAY)
- * @param label - label of the component
  * @param src - label of the source component
  * @param refresh_rate - refresh rate of the display
  */
-Display::Display(component_t type, string label, string src, int refresh_rate) :    Component(type, label, src), 
+Display::Display(component_t type, string src, int refresh_rate) :    Component(type, src + " display", src), 
                                                                                     refresh_rate(refresh_rate), 
                                                                                     current_refresh(0){}
 
@@ -82,8 +81,8 @@ int Display::test(string label, int tst_arg) {
     Component* source = &cpu;
 
     // Test the label and type
-    if (this->getLabel() != label) {
-        cout << "Error: label is not \"" << label << "\"" << endl;
+    if (this->getLabel() != this->label) {
+        cout << "Error: label is not \"" << this->label << "\"" << endl;
         return 1;
     }
     if (this->getType() != DISPLAY) {

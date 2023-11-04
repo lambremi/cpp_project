@@ -201,7 +201,6 @@ Component* Platform::readComponent(string path) {
             #endif
             component = new Display(
                 properties.type,
-                properties.label,
                 properties.source,
                 properties.refresh
             );
