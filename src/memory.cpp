@@ -108,8 +108,15 @@ int Memory::getAccess() {
  */
 dataValue Memory::read() {
     dataValue returnedValue = readPtr->value;
-    readPtr->value.flag = false;
-    readPtr = readPtr->next;
+    if (readPtr->value.flag == false) {
+        #ifdef _DEBUG_
+            cout << label << " : no value to read" << endl;
+        #endif
+    }
+    else {
+        readPtr->value.flag = false;
+        readPtr = readPtr->next;
+    }
     return returnedValue;
 }
 

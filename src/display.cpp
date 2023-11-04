@@ -50,6 +50,11 @@ void Display::simulate() {
     if (current_refresh == 0) {
         current_refresh++;
         value = source->read();
+        #ifdef DEBUG
+            if (value.flag == false) {
+                cout << label << " : " << "No value to display" << endl;
+            }
+        #endif
         while(value.flag == true) {
             cout << label << " : " << value.value << endl;
             value = source->read();
