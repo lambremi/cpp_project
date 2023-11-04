@@ -82,7 +82,7 @@ int Display::test(string label, int tst_arg) {
 
     // Test the label and type
     if (this->getLabel() != this->label) {
-        cout << "Error: label is not \"" << this->label << "\"" << endl;
+        cout << "Error: label is not \"" << label << "\"" << endl;
         return 1;
     }
     if (this->getType() != DISPLAY) {
