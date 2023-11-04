@@ -86,6 +86,7 @@ public:
     vector<Component*> getComponents() const;
     dataValue read() override;
     void simulate() override;
+    void simulate(int cycles);
     int test(string label, int tst_arg = 0) override;
 };
 

@@ -31,7 +31,7 @@ if NOT ERRORLEVEL 1 (
     for /f %%i in ('dir /b ^| findstr /V /R "^test_.*\.exe$" ^| findstr /R .exe') do (
         echo.
         echo [94m---------- Exécution de %%~i ----------[0m
-        %%~i
+        %%~i test ../data/platform.txt 1000
         call :print_errlevel %%errorlevel%%
     )
 ) else (

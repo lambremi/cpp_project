@@ -326,13 +326,47 @@ dataValue Platform::read() {
 }
 
 /**
- * @brief Lance la simulation de la plateforme
+ * @brief Lance un cycle de simulation de la plateforme
  * 
  */
 void Platform::simulate() {
-    /* TODO */
+        for (int j = 0; (size_t)j < components.size(); j=j+1) {
+            #ifdef _DEBUG_
+            cout << "----- " << j  << " : " << components[j]->getLabel() << endl;
+            #endif
+            components[j]->simulate();
+        }
 }
 
+/**
+ * @brief Lance une simulation de la plateforme
+ * sur un nombre de cycles donné
+ * 
+ * @param cycles Nombre de cycles à simuler
+ */
+void Platform::simulate(int cycles) {
+    #ifdef _DEBUG_
+    cout << "============ SIMULATE ============" << endl;
+    #endif
+    for (int i = 0; i < cycles; i=i+1) {
+        #ifdef _DEBUG_
+        cout << "---------- Cycle " << i << endl;
+        #endif
+        simulate();
+    }
+
+    #ifdef _DEBUG_
+    cout << "============ END SIMULATE ============" << endl;
+    #endif
+}
+
+/**
+ * @brief Test une instance de la classe Platform
+ * 
+ * @param label Label attendu
+ * @param tst_arg Nombre de composants attendu
+ * @return int - 1 si erreur, 0 sinon
+ */
 int Platform::test(string label, int tst_arg) {
     //----- Déclaration des variables
     vector<Component*> components;

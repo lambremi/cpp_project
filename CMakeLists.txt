@@ -17,8 +17,8 @@ enable_testing()
 add_library(project_lib STATIC ${SOURCES})
 
 # Link each executable to the static library
-add_executable(gael ./prog/gael)
-target_link_libraries(gael project_lib)
+add_executable(platform ./prog/gael)
+target_link_libraries(platform project_lib)
 
 add_executable(test_register tests/test_register.cpp)
 target_link_libraries(test_register project_lib)
