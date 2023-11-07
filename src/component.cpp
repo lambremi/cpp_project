@@ -66,8 +66,10 @@ string Component::getLabel() const {
     return label;
 }
 
+#ifdef __MINGW32__
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-but-set-parameter"
+#endif
 /**
  * @brief Retourne la source du composant
  * 
@@ -80,7 +82,9 @@ void Component::getSource(Component* src) const {
 void Component::setSource(Component* src) {
     source = src;
 }
+#ifdef __MINGW32__
 #pragma GCC diagnostic pop
+#endif
 
 /**
  * @brief Assigne le string indiquand le 

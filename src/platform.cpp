@@ -221,14 +221,14 @@ void Platform::bindComponent() {
     #ifdef _DEBUG_
     cout << "============ BIND ============" << endl;
     #endif
-    int j = 0;
+    size_t j = 0;
     string source;
 
     // Parcours de tous les composants de la plateforme
     #ifdef _DEBUG_
     cout << "Nombre de composants : " << components.size() << endl;
     #endif
-    for (int i = 0; (size_t)i < components.size(); i=i+1) {
+    for (size_t i = 0; i < components.size(); i=i+1) {
         if (components[i] != nullptr) {
             #ifdef _DEBUG_
             cout << "----- " << i  << " : " << components[i]->getLabel() << endl;
@@ -277,7 +277,7 @@ Platform::Platform(string label, string def_file) : Component(PLATFORM, label) {
     vector<string*> paths = getPaths(def_file);
 
     //----- Lecture des composants
-    for (int i = 0; (size_t)i < paths.size(); i=i+1)
+    for (size_t i = 0; i < paths.size(); i=i+1)
         components.push_back(readComponent(*paths[i]));
     
     bindComponent();
@@ -293,7 +293,7 @@ Platform::~Platform() {
     cout << "============ DESTROY @ " << this << " ============" << endl;
     cout << "Nombre de composants : " << components.size() << endl;
     #endif
-    for (int i = 0; (size_t)i < components.size(); i=i+1) {
+    for (size_t i = 0; i < components.size(); i=i+1) {
         #ifdef _DEBUG_
         cout << "----- " << i  << " : " << components[i]->getLabel() << endl;
         #endif
@@ -329,7 +329,7 @@ dataValue Platform::read() {
  * 
  */
 void Platform::simulate() {
-        for (int j = 0; (size_t)j < components.size(); j=j+1) {
+        for (size_t j = 0; j < components.size(); j=j+1) {
             #ifdef _DEBUG_
             cout << "----- " << j  << " : " << components[j]->getLabel() << endl;
             #endif
@@ -411,7 +411,7 @@ int Platform::test(string label, int tst_arg) {
     #ifdef _DEBUG_
     cout << "========== Launch test on each components ==========" << endl;
     #endif
-    for (int i = 0; (size_t)i < components.size(); i=i+1) {
+    for (size_t i = 0; i < components.size(); i=i+1) {
         #ifdef _DEBUG_
         if (components[i] != nullptr) {
             cout << "----- Test on " << components[i]->getLabel() << endl;
