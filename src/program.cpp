@@ -51,7 +51,7 @@ decode_t Program::decode() {
     ifstream file(path);
     string line; 
     double a, b;
-    string instr;
+    string instr = "NOP";
     instruction_t instruction;
     decode_t instr_decode;
     if (file.is_open()) {
@@ -78,6 +78,10 @@ decode_t Program::decode() {
         }
         else if (instr == "DIV") {
             instruction = DIV;
+        }
+        else {
+            cout << "Error: Unknown instruction" << endl;
+            exit(1);
         }
         instr_decode.instruction = instruction;
         instr_decode.a = a;
