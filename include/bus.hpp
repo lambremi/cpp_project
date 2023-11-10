@@ -37,4 +37,4 @@ class Bus : public Component
         int test(string label, int tst_arg = 0) override;
 };
 
-#endif // BUS_HPP
+#endif // BUS_HPP a
